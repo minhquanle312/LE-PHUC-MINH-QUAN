@@ -1,0 +1,41 @@
+.table-wrapper {
+  position: relative;
+  background-color: white;
+  padding: 32px;
+  margin-top: 32px;
+  border-radius: 28px;
+}
+
+.table-scroll {
+  height: 50vh;
+  overflow-y: auto;
+}
+
+.table-scroll table {
+  position: relative;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-scroll td,
+.table-scroll th {
+  border-bottom: 1px solid #dddddd;
+  text-align: left;
+  padding: 12px 8px;
+}
+
+.table-scroll th {
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+
+.currency-name {
+  display: flex;
+  gap: 8px;
+}
+
+.currency-name svg {
+  width: 24px;
+  height: 24px;
+}
