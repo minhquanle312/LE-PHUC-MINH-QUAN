@@ -28,3 +28,12 @@
   gap: 12px;
   margin-top: 24px;
 }
+
+@media screen and (max-width: 600px) {
+  .form-wrapper {
+    position: sticky;
+    top: 0;
+    padding: 32px 0;
+    background-color: #e9ecef;
+  }
+}

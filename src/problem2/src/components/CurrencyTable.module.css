@@ -39,3 +39,26 @@
   width: 24px;
   height: 24px;
 }
+
+/* MOBILE */
+.card {
+  display: none;
+  background: white;
+  padding: 16px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 600px) {
+  .table-wrapper {
+    display: none;
+  }
+  .card {
+    display: block;
+  }
+}
