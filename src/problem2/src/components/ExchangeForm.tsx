@@ -4,46 +4,8 @@ import { Token } from '../models'
 import { sortByDate } from '../utils'
 
 import classes from './ExchangeForm.module.css'
-import { useEffect, useState } from 'react'
-
-interface FormFieldProps {
-  options: string[]
-  option: string
-  setOption: (option: string) => void
-  value: number
-  setValue: (value: number) => void
-}
-
-const FormField: React.FC<FormFieldProps> = (props) => {
-  const { options, option, setOption, value, setValue } = props
-
-  return (
-    <div className={classes['form-field']}>
-      <label htmlFor="lhs-value"></label>
-      <input
-        type="number"
-        id="lhs-value"
-        name="lhs-value"
-        value={value}
-        onChange={(value) => setValue(+value.target.value)}
-      />
-      <div className={classes['divider']} />
-      <label htmlFor="lhs-currency"></label>
-      <select
-        name="lhs-currency"
-        id="lhs-currency"
-        onChange={(event) => setOption(event.target.value)}
-        value={option}
-      >
-        {options.map((token) => (
-          <option key={token} value={token}>
-            {token}
-          </option>
-        ))}
-      </select>
-    </div>
-  )
-}
+import { useEffect, useMemo, useState } from 'react'
+import { FormField } from './FormField'
 
 export const ExchangeForm = () => {
   const [lhsValue, setLhsValue] = useState<number>(1)
@@ -58,9 +20,12 @@ export const ExchangeForm = () => {
 
   const tokenOptions = Object.keys(formattedData)
 
-  const ratio =
-    formattedData[lhsOption || 0]?.[0].price /
-    formattedData[rhsOption || 1]?.[0].price
+  const ratio = useMemo(() => {
+    const calculatedRatio =
+      formattedData[lhsOption || 0]?.[0].price /
+      formattedData[rhsOption || 1]?.[0].price
+    return isNaN(calculatedRatio) ? 0 : calculatedRatio
+  }, [formattedData, lhsOption, rhsOption])
 
   useEffect(() => {
     lhsOption ?? setLhsOption(tokenOptions[0])
