@@ -1,8 +1,10 @@
-import { groupBy } from 'lodash'
+import { chain } from 'lodash'
 import { ReactSVG } from 'react-svg'
 
-import styles from './CurrencyTable.module.css'
 import { MOCK_DATA } from '../data'
+import { Token } from '../models'
+import { sortByDate } from '../utils'
+import classes from './CurrencyTable.module.css'
 
 const BASE_URL_SVG =
   'https://raw.githubusercontent.com/Switcheo/token-icons/main/tokens'
@@ -17,12 +19,14 @@ const MAPPING_EDGE_CASE_ICON: Record<string, string> = {
 }
 
 export const CurrencyTable = () => {
-  const formattedData = groupBy(MOCK_DATA, 'currency')
-  console.log('formatted MOCK_DATA:: ', formattedData)
+  const formattedData = chain(MOCK_DATA)
+    .groupBy('currency')
+    .mapValues((value: Token[]) => value.sort(sortByDate))
+    .value()
 
   return (
-    <div className={styles['table-wrapper']}>
-      <div className={styles['table-scroll']}>
+    <div className={classes['table-wrapper']}>
+      <div className={classes['table-scroll']}>
         <table>
           <thead>
             <tr>
@@ -34,7 +38,7 @@ export const CurrencyTable = () => {
           <tbody>
             {Object.keys(formattedData).map((currency) => (
               <tr key={currency}>
-                <td className={styles['currency-name']}>
+                <td className={classes['currency-name']}>
                   <ReactSVG
                     src={`${BASE_URL_SVG}/${
                       MAPPING_EDGE_CASE_ICON?.[currency] || currency
@@ -43,7 +47,11 @@ export const CurrencyTable = () => {
                   {currency}
                 </td>
                 <td>{formattedData[currency][0].price}</td>
-                <td>{formattedData[currency][0].date}</td>
+                <td>
+                  {new Date(formattedData[currency][0].date).toLocaleString(
+                    'en-US'
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
