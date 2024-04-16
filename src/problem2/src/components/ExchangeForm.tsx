@@ -1,24 +1,15 @@
-import { chain } from 'lodash'
-import { MOCK_DATA } from '../data'
-import { Token } from '../models'
-import { sortByDate } from '../utils'
-
-import classes from './ExchangeForm.module.css'
 import { useEffect, useMemo, useState } from 'react'
+import { useExchangeRate } from '../context'
+import classes from './ExchangeForm.module.css'
 import { FormField } from './FormField'
 
 export const ExchangeForm = () => {
+  const { formattedData, tokenOptions } = useExchangeRate()
+
   const [lhsValue, setLhsValue] = useState<number>(1)
   const [lhsOption, setLhsOption] = useState<string>()
   const [rhsValue, setRhsValue] = useState<number>()
   const [rhsOption, setRhsOption] = useState<string>()
-
-  const formattedData = chain(MOCK_DATA)
-    .groupBy('currency')
-    .mapValues((value: Token[]) => value.sort(sortByDate))
-    .value()
-
-  const tokenOptions = Object.keys(formattedData)
 
   const ratio = useMemo(() => {
     const calculatedRatio =

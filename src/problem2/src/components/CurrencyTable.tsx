@@ -1,28 +1,11 @@
-import { chain } from 'lodash'
 import { ReactSVG } from 'react-svg'
 
-import { MOCK_DATA } from '../data'
-import { Token } from '../models'
-import { sortByDate } from '../utils'
+import { BASE_URL_SVG, MAPPING_EDGE_CASE_ICON } from '../constants'
+import { useExchangeRate } from '../context'
 import classes from './CurrencyTable.module.css'
 
-const BASE_URL_SVG =
-  'https://raw.githubusercontent.com/Switcheo/token-icons/main/tokens'
-
-/** Icon name does not match the file name */
-const MAPPING_EDGE_CASE_ICON: Record<string, string> = {
-  STEVMOS: 'stEVMOS',
-  RATOM: 'rATOM',
-  STOSMO: 'stOSMO',
-  STATOM: 'stATOM',
-  STLUNA: 'stLUNA',
-}
-
 export const CurrencyTable = () => {
-  const formattedData = chain(MOCK_DATA)
-    .groupBy('currency')
-    .mapValues((value: Token[]) => value.sort(sortByDate))
-    .value()
+  const { formattedData, tokenOptions } = useExchangeRate()
 
   return (
     <div className={classes['table-wrapper']}>
@@ -36,7 +19,7 @@ export const CurrencyTable = () => {
             </tr>
           </thead>
           <tbody>
-            {Object.keys(formattedData).map((currency) => (
+            {tokenOptions.map((currency) => (
               <tr key={currency}>
                 <td className={classes['currency-name']}>
                   <ReactSVG
