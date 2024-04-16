@@ -13,8 +13,6 @@ const getArgs = () =>
 const valueArg = getArgs().value ? Number(getArgs().value) : 0
 const checkNaN = !isNaN(valueArg) ? valueArg : 0
 
-console.log(Number(getArgs().value), getArgs().value, getArgs())
-
 /**
  * @param {number} n
  * @returns {number}
