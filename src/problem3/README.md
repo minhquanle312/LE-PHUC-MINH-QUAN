@@ -2,6 +2,8 @@
 
 ### [Goto fully refactor code without comment for more readable](#complete-code)
 
+> 💡 Highlight `NOTE:` to see explanation
+
 ```typescript
 interface WalletBalance {
   currency: string
